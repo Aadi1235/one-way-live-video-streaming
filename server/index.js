@@ -39,27 +39,6 @@ const streams = new Map();
 // API to create a new stream
 app.post('/api/stream', async (req, res) => {
   const streamId = Math.random().toString(36).substr(2, 9);
-  const stream = new Stream({ streamId });
-  await stream.save();
-  res.json({ streamId });
-});
-
-// API to check if a stream exists
-// app.get('/api/stream/:streamId', async (req, res) => {
-//   const { streamId } = req.params;
-//   const stream = await Stream.findOne({ streamId });
-//   if (stream) {
-//     res.json({ exists: true });
-//   } else {
-//     res.status(404).json({ exists: false });
-//   }
-// });
-
-// API to create a new stream
-app.post('/api/stream', async (req, res) => {
-  const streamId = Math.random().toString(36).substr(2, 9);
-  // const stream = new Stream({ streamId }); // Comment out mongoose
-  // await stream.save(); // Comment out mongoose
   streams.set(streamId, { createdAt: new Date() }); // Use in-memory instead
   res.json({ streamId });
 });
@@ -67,8 +46,6 @@ app.post('/api/stream', async (req, res) => {
 // API to check if a stream exists
 app.get('/api/stream/:streamId', async (req, res) => {
   const { streamId } = req.params;
-  // const stream = await Stream.findOne({ streamId }); // Comment out mongoose
-  // if (stream) { // Comment out mongoose
   if (streams.has(streamId)) { // Use in-memory instead
     res.json({ exists: true });
   } else {
