@@ -1,6 +1,6 @@
 const express = require('express');
 const http = require('http');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const cors = require('cors');
 const { Server } = require('socket.io');
 
@@ -23,16 +23,19 @@ app.use(cors({
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/videostream', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// mongoose.connect('mongodb://localhost:27017/videostream', {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
-const streamSchema = new mongoose.Schema({
-  streamId: String,
-  createdAt: { type: Date, default: Date.now },
-});
-const Stream = mongoose.model('Stream', streamSchema);
+// const streamSchema = new mongoose.Schema({
+//   streamId: String,
+//   createdAt: { type: Date, default: Date.now },
+// });
+// const Stream = mongoose.model('Stream', streamSchema);
+
+// Simple in-memory storage instead of MongoDB
+const streams = new Map();
 
 // API to create a new stream
 app.post('/api/stream', async (req, res) => {
@@ -43,10 +46,31 @@ app.post('/api/stream', async (req, res) => {
 });
 
 // API to check if a stream exists
+// app.get('/api/stream/:streamId', async (req, res) => {
+//   const { streamId } = req.params;
+//   const stream = await Stream.findOne({ streamId });
+//   if (stream) {
+//     res.json({ exists: true });
+//   } else {
+//     res.status(404).json({ exists: false });
+//   }
+// });
+
+// API to create a new stream
+app.post('/api/stream', async (req, res) => {
+  const streamId = Math.random().toString(36).substr(2, 9);
+  // const stream = new Stream({ streamId }); // Comment out mongoose
+  // await stream.save(); // Comment out mongoose
+  streams.set(streamId, { createdAt: new Date() }); // Use in-memory instead
+  res.json({ streamId });
+});
+
+// API to check if a stream exists
 app.get('/api/stream/:streamId', async (req, res) => {
   const { streamId } = req.params;
-  const stream = await Stream.findOne({ streamId });
-  if (stream) {
+  // const stream = await Stream.findOne({ streamId }); // Comment out mongoose
+  // if (stream) { // Comment out mongoose
+  if (streams.has(streamId)) { // Use in-memory instead
     res.json({ exists: true });
   } else {
     res.status(404).json({ exists: false });
