@@ -8,15 +8,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+    origin: ['http://localhost:5173', 'https://one-way-live-video-streaming.vercel.app'],
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
 app.use(cors({
-  origin: ['http://localhost:5173',
-  'https://one-way-live-video-streaming.vercel.app/'
-  ],
+  origin: ['http://localhost:5173', 'https://one-way-live-video-streaming.vercel.app'],
   methods: ['GET', 'POST'],
   credentials: true
 }));

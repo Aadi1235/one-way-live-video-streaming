@@ -10,7 +10,7 @@ export default function Host() {
 
   const createStream = async () => {
     setLoading(true);
-    const res = await fetch('https://one-way-live-video-streaming.onrender.com', {
+    const res = await fetch('https://one-way-live-video-streaming.onrender.com/api/stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
     });
