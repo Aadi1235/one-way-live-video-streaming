@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 export async function startHostStream(streamId, onRemoteJoin, onChatMessage) {
   const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
   console.log('[HostStream] Got local media stream:', stream);
-  const socket = io('http://localhost:5000');
+  const socket = io('https://one-way-live-video-streaming.onrender.com');
   socket.on('connect', () => {
     console.log('[HostStream] Socket connected with id:', socket.id);
   });

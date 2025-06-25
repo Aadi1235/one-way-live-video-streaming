@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 export async function startViewerStream(streamId, viewerId, name, onStream) {
   // Always create a new socket for each viewer session
-  const socket = io('http://localhost:5000');
+  const socket = io('https://one-way-live-video-streaming.onrender.com');
   socket.on('connect', () => {
     console.log('[ViewerStream] Socket connected with id:', socket.id);
   });
